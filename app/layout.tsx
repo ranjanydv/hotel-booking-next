@@ -16,8 +16,8 @@ import getCurrentUser from "./actions/getCurrentUser"
 const nunito = Nunito({subsets: ["latin"]})
 
 export const metadata = {
-  title: "Airbnb",
-  description: "Airbnb clone",
+  title: "RajHotel",
+  description: "This is hotel booking system for RajHotel",
 }
 
 export default async function RootLayout(

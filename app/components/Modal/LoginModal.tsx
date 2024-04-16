@@ -109,7 +109,7 @@ const LoginModal = () => {
 			"
             >
                 <div className="justify-center flex flex-row items-center gap-2">
-                    <span className="">New to AirBnb?</span>
+                    <span className="">New to RajHotel?</span>
                     <span
                         onClick={toggle}
                         className="text-neutral-800 cursor-pointer hover:underline"
