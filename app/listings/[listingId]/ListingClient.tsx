@@ -1,33 +1,33 @@
-"use client"
+'use client';
 
-import React, {useCallback, useEffect, useMemo, useState} from "react"
-import {useRouter} from "next/navigation"
-import {differenceInCalendarDays, eachDayOfInterval} from "date-fns"
-import {toast} from "react-hot-toast"
-import axios from "axios"
-import {Range} from "react-date-range"
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { differenceInCalendarDays, eachDayOfInterval } from 'date-fns';
+import { toast } from 'react-hot-toast';
+import axios from 'axios';
+import { Range } from 'react-date-range';
 
-import {SafeListing, SafeReservation, SafeUser} from "@/app/types"
+import { SafeListing, SafeReservation, SafeUser } from '@/app/types';
 
-import {Container} from "@/app/components/Container"
-import ListingHead from "@/app/components/Listings/ListingHead"
-import ListingInfo from "@/app/components/Listings/ListingInfo"
-import {categories} from "@/app/components/Navbar/Categories"
-import useLoginModal from "@/app/hooks/useLoginModal"
-import ListingReservation from "@/app/components/Listings/ListingReservation"
+import { Container } from '@/app/components/Container';
+import ListingHead from '@/app/components/Listings/ListingHead';
+import ListingInfo from '@/app/components/Listings/ListingInfo';
+import { categories } from '@/app/components/Navbar/Categories';
+import useLoginModal from '@/app/hooks/useLoginModal';
+import ListingReservation from '@/app/components/Listings/ListingReservation';
 
 const initialDateRange = {
   startDate: new Date(),
   endDate: new Date(),
-  key: "selection",
-}
+  key: 'selection',
+};
 
 interface ListingClientProps {
-  reservations?: SafeReservation[]
+  reservations?: SafeReservation[];
   listing: SafeListing & {
     user: SafeUser
-  }
-  currentUser?: SafeUser | null
+  };
+  currentUser?: SafeUser | null;
 }
 
 const ListingClient: React.FC<ListingClientProps> = (
@@ -36,71 +36,97 @@ const ListingClient: React.FC<ListingClientProps> = (
     reservations = [],
     currentUser,
   }) => {
-  const loginModal = useLoginModal()
-  const router = useRouter()
+  const loginModal = useLoginModal();
+  const router = useRouter();
 
   const disabledDates = useMemo(() => {
-    let dates: Date[] = []
+    let dates: Date[] = [];
 
     reservations.forEach((reservation) => {
       const range = eachDayOfInterval({
         start: new Date(reservation.startDate),
         end: new Date(reservation.endDate),
-      })
-      dates = [...dates, ...range]
-    })
-    return dates
-  }, [reservations])
+      });
+      dates = [...dates, ...range];
+    });
+    return dates;
+  }, [reservations]);
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [totalPrice, setTotalPrice] = useState(listing.price)
-  const [dateRange, setDateRange] = useState<Range>(initialDateRange)
+  const [isLoading, setIsLoading] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(listing.price);
+  const [dateRange, setDateRange] = useState<Range>(initialDateRange);
+
+
+  const handleKhaltiPayment = useCallback(async () => {
+    toast.success('Khalti');
+    const payload = {
+      'return_url': 'http://localhost:3000/payment-success',
+      'website_url': 'http://localhost:3000',
+      'amount': totalPrice * 100,
+      'purchase_order_id': `${listing?.id}_${new Date(Date.now())}`,
+      'purchase_order_name': 'test',
+      'customer_info': {
+        'name': `${currentUser?.name}`,
+        'email': `${currentUser?.email}`,
+        'phone': `000000000`
+      },
+    };
+    console.log(payload);
+    await axios.post('/api/khalti', payload)
+      .then(async (res) => {
+        console.log(res.data.data);
+        router.push(`${res.data.data.payment_url}`);
+        // window.location.href = `${res.data.data.payment_url}`;
+      });
+  }, [currentUser, listing?.id, router, totalPrice]);
+
 
   const onCreateReservation = useCallback(
-    () => {
-      if (!currentUser) return loginModal.onOpen()
+    async () => {
+      if (!currentUser) return loginModal.onOpen();
 
-      setIsLoading(true)
-      axios.post("/api/reservations", {
+      setIsLoading(true);
+      await axios.post('/api/reservations', {
         totalPrice,
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
         listingId: listing?.id
-      }).then(() => {
-        toast.success("Listing Reserved")
-        setDateRange(initialDateRange)
+      }).then(async () => {
+        toast.success('Listing Reserved');
+        setDateRange(initialDateRange);
         // Redirect to "/trips"
-        setTimeout(() => {
-          router.push("/trips")
-        }, 200)
+        await handleKhaltiPayment();
+        // setTimeout(() => {
+        //   // router.push('/trips');
+        // }, 200);
       }).catch((error) => {
-        toast.error("Something Went Wrong")
+        toast.error('Something Went Wrong');
       }).finally(() => {
-        setIsLoading(false)
-      })
+        setIsLoading(false);
+      });
     },
-    [totalPrice, dateRange, listing?.id, router, currentUser, loginModal],
-  )
+    [currentUser, loginModal, handleKhaltiPayment, totalPrice, dateRange.startDate, dateRange.endDate, listing?.id, router],
+  );
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
       const dayCount = differenceInCalendarDays(
         dateRange.endDate,
         dateRange.startDate
-      )
+      );
       if (dayCount && listing.price) {
-        setTotalPrice(dayCount * listing.price)
+        setTotalPrice(dayCount * listing.price);
       } else {
-        setTotalPrice(listing.price)
+        setTotalPrice(listing.price);
       }
     }
-  }, [dateRange.endDate, dateRange.startDate, listing.price, totalPrice])
+  }, [dateRange.endDate, dateRange.startDate, listing.price, totalPrice]);
 
 
   // fetching category
   const category = useMemo(() => {
-    return categories.find((item) => item.label === listing.category)
-  }, [listing.category])
+    return categories.find((item) => item.label === listing.category);
+  }, [listing.category]);
 
   return (
     <Container>
@@ -152,6 +178,6 @@ const ListingClient: React.FC<ListingClientProps> = (
         </div>
       </div>
     </Container>
-  )
-}
-export default ListingClient
+  );
+};
+export default ListingClient;

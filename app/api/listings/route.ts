@@ -22,6 +22,7 @@ export async function POST(
         }
     })
     const listing = await prisma.listing.create({
+        // @ts-ignore
         data: {
             title,
             description,
