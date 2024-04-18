@@ -10,14 +10,14 @@ declare global {
 }
 
 interface ImageUploadProps {
-	onChange: (value: string) => void
-	value: string
+	onChange: (value: string[]) => void
+	value: string[]
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
 	const handleUpload = useCallback(
 		(result: any) => {
-			onChange(result.info.secure_url)
+			onChange([result.info.secure_url])
 		},
 		[onChange]
 	)
@@ -27,7 +27,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
 			onUpload={handleUpload}
 			uploadPreset="fmfpamsi"
 			options={{
-				maxFiles: 1,
+				multiple: true,
+				maxFiles: 4,
 			}}
 		>
 			{({ open }) => {
@@ -53,7 +54,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
 					>
 						<TbPhotoPlus size={50} />
 						<span className="font-semibold text-lg">Click to Upload</span>
-						{value && (
+						{/* {value && (
 							<div className="absolute inset-0 w-full h-full">
 								<Image
 									alt="Upload"
@@ -62,7 +63,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
 									src={value}
 								/>
 							</div>
-						)}
+						)} */}
 					</div>
 				)
 			}}
