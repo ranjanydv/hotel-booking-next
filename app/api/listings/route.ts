@@ -1,4 +1,4 @@
-import {NextResponse} from "next/server"
+import { NextResponse } from "next/server"
 
 import prisma from "@/app/libs/prismadb"
 import getCurrentUser from "@/app/actions/getCurrentUser"
@@ -13,7 +13,7 @@ export async function POST(
     }
 
     const body = await request.json()
-    const {title, description, imageSrc, category, roomCount, bathroomCount, guestCount, location, price} = body
+    const { title, description, imageSrc, category, roomCount, bathroomCount, guestCount, location, price } = body
 
     // This function is worthless
     Object.keys(body).forEach((value: any) => {
@@ -31,7 +31,7 @@ export async function POST(
             roomCount,
             bathroomCount,
             guestCount,
-            locationValue: location.value,
+            // locationValue: location.value,
             price: parseInt(price, 10),
             userId: currentUser.id
         }

@@ -1,14 +1,14 @@
 "use client"
 
-import React, {useCallback, useMemo} from "react"
-import {useRouter} from "next/navigation"
-import {format} from "date-fns"
+import React, { useCallback, useMemo } from "react"
+import { useRouter } from "next/navigation"
+import { format } from "date-fns"
 import Image from "next/image"
 
 import useCountries from "@/app/hooks/useCountries"
-import {SafeListing, SafeReservation, SafeUser} from "@/app/types"
-import {HeartButton} from "../HeartButton"
-import {Button} from "@/app/components/Button"
+import { SafeListing, SafeReservation, SafeUser } from "@/app/types"
+import { HeartButton } from "../HeartButton"
+import { Button } from "@/app/components/Button"
 
 interface ListingCardProps {
   data: SafeListing
@@ -31,9 +31,9 @@ const ListingCard: React.FC<ListingCardProps> = (
     currentUser,
   }) => {
   const router = useRouter()
-  const {getByValue} = useCountries()
+  // const {getByValue} = useCountries()
 
-  const location = getByValue(data.locationValue)
+  // const location = getByValue(data.locationValue)
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -78,7 +78,7 @@ const ListingCard: React.FC<ListingCardProps> = (
           <Image
             fill
             alt="listing"
-            src={data.imageSrc}
+            src={data.imageSrc[0]}
             className="
 							object-cover
 							h-full
@@ -94,9 +94,9 @@ const ListingCard: React.FC<ListingCardProps> = (
             />
           </div>
         </div>
-        <div className="font-semibold text-lg">
+        {/* <div className="font-semibold text-lg">
           {location?.region},{location?.label}
-        </div>
+        </div> */}
         <div className="font-light text-neutral-500">
           {reservationDate || data.category}
         </div>

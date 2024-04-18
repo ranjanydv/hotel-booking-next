@@ -54,9 +54,9 @@ export default async function getListings(
     }
 
 
-    if (locationValue) {
-      query.locationValue = locationValue
-    }
+    // if (locationValue) {
+    //   query.locationValue = locationValue
+    // }
 
     // Filter out booked reservations
     if (startDate && endDate) {
@@ -66,11 +66,11 @@ export default async function getListings(
           some: {
             OR: [
               {
-                endDate: {gte: startDate},
-                startDate: {lte: startDate}
+                endDate: { gte: startDate },
+                startDate: { lte: startDate }
               }, {
-                startDate: {lte: endDate},
-                endDate: {gte: endDate}
+                startDate: { lte: endDate },
+                endDate: { gte: endDate }
               }
             ]
           }
