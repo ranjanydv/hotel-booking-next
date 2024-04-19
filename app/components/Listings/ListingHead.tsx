@@ -3,15 +3,15 @@
 import React from "react"
 import Image from "next/image"
 
-import {SafeUser} from "@/app/types"
+import { SafeUser } from "@/app/types"
 import useCountries from "@/app/hooks/useCountries"
 import Heading from "../Heading"
-import {HeartButton} from "@/app/components/HeartButton"
+import { HeartButton } from "@/app/components/HeartButton"
 
 interface ListingHeadProps {
     title: string
-    imageSrc: string
-    locationValue: string
+    imageSrc: string[]
+    locationValue?: string
     id: string
     currentUser?: SafeUser | null
 }
@@ -24,14 +24,15 @@ const ListingHead: React.FC<ListingHeadProps> = (
         id,
         currentUser
     }) => {
-    const {getByValue} = useCountries()
-    const location = getByValue(locationValue)
+    // const { getByValue } = useCountries()
+    // const location = getByValue(locationValue)
 
     return (
         <>
             <Heading
                 title={title}
-                subtitle={`${location?.label},${location?.region}`}
+                // subtitle={`${location?.label},${location?.region}`}
+                subtitle={"`${location?.label},${location?.region}`"}
             />
             <div className="
                     w-full
@@ -43,7 +44,7 @@ const ListingHead: React.FC<ListingHeadProps> = (
             >
                 <Image
                     alt={title}
-                    src={imageSrc}
+                    src={imageSrc[0]}
                     fill
                     className="object-hover w-full"
                 />

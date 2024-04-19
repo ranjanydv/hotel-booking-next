@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import getCurrentUser from './actions/getCurrentUser'
 import getListings, { IListingParams } from './actions/getListings'
 
@@ -6,6 +7,9 @@ import { Container } from './components/Container'
 import EmptyState from './components/EmptyState'
 import ListingCard from './components/Listings/ListingCard'
 
+import { createAdminIfNotExist } from '@/app/api/initAdmin';
+
+
 export const dynamic = 'force-dynamic'
 interface HomeProps {
 	searchParams: IListingParams
@@ -13,8 +17,12 @@ interface HomeProps {
 
 // export default async function Home() {
 const Home = async ({ searchParams }: HomeProps) => {
+
 	const listings = await getListings(searchParams)
 	const currentUser = await getCurrentUser()
+
+	createAdminIfNotExist();
+
 
 	if (listings.length === 0) {
 		return (

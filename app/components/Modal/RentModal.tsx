@@ -1,16 +1,16 @@
 "use client"
 
-import React, {useMemo, useState} from "react"
-import {FieldValues, useForm, SubmitHandler} from "react-hook-form"
+import React, { useMemo, useState } from "react"
+import { FieldValues, useForm, SubmitHandler } from "react-hook-form"
 import dynamic from "next/dynamic"
 import axios from "axios"
 import toast from "react-hot-toast"
-import {useRouter} from "next/navigation"
+import { useRouter } from "next/navigation"
 
 import useRentModal from "@/app/hooks/useRentModal"
-import {Modal} from "./Modal"
+import { Modal } from "./Modal"
 import Heading from "../Heading"
-import {categories} from "../Navbar/Categories"
+import { categories } from "../Navbar/Categories"
 import CategoryInput from "../Input/CategoryInput"
 import CountrySelect from "../Input/CountrySelect"
 import Counter from "../Input/Counter"
@@ -19,12 +19,19 @@ import Input from "../Input/Input"
 
 enum STEPS {
   CATEGORY = 0,
-  LOCATION = 1,
-  INFO = 2,
-  IMAGES = 3,
-  DESCRIPTION = 4,
-  PRICE = 5,
+  INFO = 1,
+  IMAGES = 2,
+  DESCRIPTION = 3,
+  PRICE = 4,
 }
+// enum STEPS {
+//   CATEGORY = 0,
+//   LOCATION = 1,
+//   INFO = 2,
+//   IMAGES = 3,
+//   DESCRIPTION = 4,
+//   PRICE = 5,
+// }
 
 const RentModal = () => {
   const router = useRouter()
@@ -38,7 +45,7 @@ const RentModal = () => {
     handleSubmit,
     setValue,
     watch,
-    formState: {errors},
+    formState: { errors },
     reset,
   } = useForm<FieldValues>({
     defaultValues: {
@@ -47,7 +54,7 @@ const RentModal = () => {
       guestCount: 1,
       roomCount: 1,
       bathroomCount: 1,
-      imageSrc: "",
+      imageSrc: [],
       price: 1,
       description: "",
       title: "",
@@ -114,7 +121,7 @@ const RentModal = () => {
   let bodyContent = (
     <div className="flex flex-col gap-8">
       <Heading
-        title="Which of this Best Describes Your Place?"
+        title="Which of this Best Describes Your Room?"
         subtitle="Pick a Category"
       />
       <div
@@ -141,21 +148,21 @@ const RentModal = () => {
     </div>
   )
 
-  if (step === STEPS.LOCATION) {
-    bodyContent = (
-      <div className="flex flex-col gap-8">
-        <Heading
-          title="Where is Your Place Located?"
-          subtitle="Help Us Find You"
-        />
-        <CountrySelect
-          onChange={(value) => setCustomValue("location", value)}
-          value={location}
-        />
-        <Map center={location?.latlng}/>
-      </div>
-    )
-  }
+  // if (step === STEPS.LOCATION) {
+  //   bodyContent = (
+  //     <div className="flex flex-col gap-8">
+  //       <Heading
+  //         title="Where is Your Place Located?"
+  //         subtitle="Help Us Find You"
+  //       />
+  //       <CountrySelect
+  //         onChange={(value) => setCustomValue("location", value)}
+  //         value={location}
+  //       />
+  //       <Map center={location?.latlng} />
+  //     </div>
+  //   )
+  // }
 
   if (step === STEPS.INFO) {
     bodyContent = (
@@ -166,18 +173,18 @@ const RentModal = () => {
         />
         <Counter
           title="Guests"
-          subtitle="How many guests do you allow?"
+          subtitle="How many guests can accomodate in the room?"
           value={guestCount}
           onChange={(value) => setCustomValue("guestCount", value)}
         />
-        <hr/>
-        <Counter
+        <hr />
+        {/* <Counter
           title="Rooms"
           subtitle="How many rooms do you have?"
           value={roomCount}
           onChange={(value) => setCustomValue("roomCount", value)}
         />
-        <hr/>
+        <hr /> */}
         <Counter
           title="Bathrooms"
           subtitle="How many bathrooms do you have?"
@@ -195,7 +202,7 @@ const RentModal = () => {
           title="Add a photo of your place"
           subtitle="Show guests how your place looks like"
         />
-        <ImageUpload value={imageSrc} onChange={(value) => setCustomValue("imageSrc", value)}/>
+        <ImageUpload value={imageSrc} onChange={(value) => setCustomValue("imageSrc", value)} />
       </div>
     )
   }
@@ -215,7 +222,7 @@ const RentModal = () => {
           errors={errors}
           required
         />
-        <hr/>
+        <hr />
         <Input
           id="description"
           label="Description"
@@ -231,7 +238,7 @@ const RentModal = () => {
   if (step === STEPS.PRICE) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading title="Now, Set your Price" subtitle="How much do you charge per night?"/>
+        <Heading title="Now, Set your Price" subtitle="How much do you charge per night?" />
         <Input
           id="price"
           label="Price"
@@ -248,7 +255,7 @@ const RentModal = () => {
 
   return (
     <Modal
-      title="List Your Hotel"
+      title="List Your Room"
       isOpen={rentModal.isOpen}
       onClose={rentModal.onClose}
       onSubmit={handleSubmit(onSubmit)}

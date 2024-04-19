@@ -10,6 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Status {
+  ACTIVE
+  BANNED
+}
+
 model User {
   id             String    @id @default(auto()) @map("_id") @db.ObjectId
   name           String?
@@ -20,6 +25,8 @@ model User {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   favouriteIds   String[]  @db.ObjectId
+  role           String?   @default("USER")
+  status         Status?   @default(ACTIVE)
 
   accounts     Account[]
   listings     Listing[]
@@ -50,13 +57,13 @@ model Listing {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   title         String
   description   String
-  imageSrc      String
+  imageSrc      String[]
   createdAt     DateTime @default(now())
   category      String
   roomCount     Int
   bathroomCount Int
   guestCount    Int
-  locationValue String
+  locationValue String?
   userId        String   @db.ObjectId
   // hotelId       String   @db.ObjectId
   price         Int

@@ -1,29 +1,32 @@
 "use client"
 
-import React, {useCallback, useState} from "react"
+import React, { useCallback, useState } from "react"
 import toast from "react-hot-toast"
-import {AiOutlineMenu} from "react-icons/ai"
-import {signOut} from "next-auth/react"
+import { AiOutlineMenu } from "react-icons/ai"
+import { signOut } from "next-auth/react"
 
 import useRegisterModal from "@/app/hooks/useRegisterModal"
 import useLoginModal from "@/app/hooks/useLoginModal"
 import useRentModal from "@/app/hooks/useRentModal"
 
-import {SafeUser} from "@/app/types"
-import {Avatar} from "../Avatar"
-import {MenuItem} from "./MenuItem"
-import {useRouter} from "next/navigation"
+import { SafeUser } from "@/app/types"
+import { Avatar } from "../Avatar"
+import { MenuItem } from "./MenuItem"
+import { useRouter } from "next/navigation"
+import { FiLogOut } from "react-icons/fi"
 
 interface UserMenuProps {
   currentUser?: SafeUser | null
+
 }
 
-export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
+export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const router = useRouter()
   const registerModal = useRegisterModal()
   const loginModal = useLoginModal()
   const rentModal = useRentModal()
   const [isOpen, setIsOpen] = useState(false)
+  console.log(currentUser);
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value)
@@ -39,24 +42,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
 
   return (
     <div className="relative select-none">
-      <div className="flex flex-row items-center gap-3">
-        <div
-          onClick={onRent}
-          className="
-						hidden
-						md:block
-						text-sm
-						font-semibold
-						py-3
-						px-4
-						rounded-full
-						hover:bg-neutral-100
-						transition
-						cursor-pointer
-        "
-        >
-          List Your Hotel
-        </div>
+      <div className="flex flex-row items-center gap-3 ">
         <div
           onClick={toggleOpen}
           className="
@@ -75,19 +61,20 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
 						transition
 				"
         >
-          <AiOutlineMenu/>
+          <AiOutlineMenu />
           <div className="hidden md:block">
-            <Avatar src={currentUser?.image}/>
+            <Avatar src={currentUser?.image} />
           </div>
         </div>
       </div>
       {isOpen && (
+        // w-[40vw]
         <div
           className="
+            min-w-[200px]
 						absolute
-						rounded-xl
+						rounded-md
 						shadow-md
-						w-[40vw]
 						md:w-3/4
 						bg-white
 						overflow-hidden
@@ -104,7 +91,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                     router.push("/trips")
                     setIsOpen(false)
                   }}
-                  label="My Trips"
+                  label="My Bookings"
                 />
                 <MenuItem
                   onClick={() => {
@@ -113,39 +100,44 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                   }}
                   label="My Favorites"
                 />
-                <MenuItem
-                  onClick={() => {
-                    router.push("/reservations")
-                    setIsOpen(false)
-                  }}
-                  label="My Reservations"
-                />
-                <MenuItem
-                  onClick={() => {
-                    router.push("/properties")
-                    setIsOpen(false)
-                  }}
-                  label="My Properties"
-                />
-                <MenuItem
-                  onClick={rentModal.onOpen}
-                  label="List my Hotel"
-                />
-                <hr/>
-                <MenuItem
+                {currentUser?.role === "admin" && (
+                  <>
+                    <hr />
+                    <MenuItem
+                      onClick={() => {
+                        router.push("/admin")
+                        setIsOpen(false)
+                      }}
+                      label="Dashboard"
+                    />
+                  </>
+                )}
+                <hr />
+                <div
                   onClick={() => {
                     toast.success("Logout successful")
                     setTimeout(() => {
                       signOut()
                     }, 500)
                   }}
-                  label="Logout"
-                />
+                  className="
+                    px-4
+                    py-3
+                    hover:bg-neutral-200
+                    text-red-400
+                    transition
+                    font-semibold
+                    flex gap-2
+                  "
+                >
+                  <FiLogOut size={20} />
+                  Log out
+                </div>
               </>
             ) : (
               <>
-                <MenuItem onClick={loginModal.onOpen} label="Login"/>
-                <MenuItem onClick={registerModal.onOpen} label="SignUp"/>
+                <MenuItem onClick={loginModal.onOpen} label="Login" />
+                <MenuItem onClick={registerModal.onOpen} label="SignUp" />
               </>
             )}
           </div>
