@@ -1,9 +1,41 @@
-import React from 'react'
+import getCurrentUser from "@/app/actions/getCurrentUser"
+import getUsers from "@/app/actions/getUsers"
+import ClientOnly from "@/app/components/ClientOnly"
+import { EmptyState } from "@/app/components/EmptyState"
+import UsersClient from "./UsersClient"
 
-const Users = () => {
+const USers = async () => {
+  const currentUser = await getCurrentUser()
+
+  if (!currentUser) {
     return (
-        <div>Users</div>
+      <ClientOnly>
+        <EmptyState title="Unauthorized" subtitle="Please Login" />
+      </ClientOnly>
     )
+  }
+
+  const users = await getUsers();
+
+  if (users.length === 0) {
+    return (
+      <ClientOnly>
+        <EmptyState
+          title="No Rooms listed"
+          subtitle="Looks like you haven't posted any rooms yet"
+        />
+      </ClientOnly>
+    )
+  }
+
+  return (
+    <ClientOnly>
+      <UsersClient
+        users={users}
+        currentUser={currentUser}
+      />
+    </ClientOnly>
+  )
 }
 
-export default Users
+export default USers

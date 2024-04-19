@@ -1,12 +1,14 @@
 "use client"
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { FiLogOut, FiUsers } from "react-icons/fi";
 import { MdAddCircleOutline, MdOutlineDashboard, MdOutlineRoom } from "react-icons/md";
 import { TbBrandBooking } from "react-icons/tb";
 import useRentModal from "../hooks/useRentModal";
+import toast from "react-hot-toast";
+import { signOut } from "next-auth/react";
 
 const adminMenu = [
     { label: 'Dashboard', href: 'admin', icon: MdOutlineDashboard, },
@@ -17,15 +19,15 @@ const adminMenu = [
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
-    const rentModal = useRentModal()
+    const rentModal = useRentModal();
+    const router = useRouter()
+
 
 
     const onRent = () => {
         // Open Rent Modal
         rentModal.onOpen()
     }
-
-
 
     return (
         <div className="grid grid-cols-8 gap-4 overflow-x-hidden">
@@ -53,7 +55,16 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                         </span>
                     </span>
                 </div>
-                <div className="text-sm bg-blue-100 hover:bg-blue-200 hover:text-blue-800 hover:gap-3 p-4 rounded transition-all ease-in-out duration-200 flex items-center gap-2">
+                <div
+                    className="cursor-pointer text-sm bg-blue-100 hover:bg-blue-200 hover:text-blue-800 hover:gap-3 p-4 rounded transition-all ease-in-out duration-200 flex items-center gap-2"
+                    onClick={() => {
+                        toast.success("Logout successful")
+                        setTimeout(() => {
+                            signOut()
+                            router.replace("/")
+                        }, 500)
+                    }}
+                >
                     <FiLogOut size={20} />
                     Logout
                 </div>
