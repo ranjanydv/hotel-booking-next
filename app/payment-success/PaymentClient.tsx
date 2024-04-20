@@ -26,13 +26,12 @@ const PaymentClient: React.FC = () => {
                             <p>Go to reservations to see your booking</p>
                         </div>
                         <span className="min-w-[300px] max-w-[400px]">
-                            <Button label="Go to Reservations" onClick={() => router.push(`/trips`)} />
+                            <Button label="Go to Home" onClick={() => router.push(`/`)} />
                         </span>
                     </div>
                 </div>
             </section>
         </Container>
-
     )
 }
 
