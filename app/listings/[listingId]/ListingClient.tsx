@@ -62,7 +62,7 @@ const ListingClient: React.FC<ListingClientProps> = (
     toast.success('Khalti');
     const payload = {
       'return_url': `${process.env.NEXT_PUBLIC_KHALTI_RETURN_URL}/payment-success`,
-      'website_url': 'http://localhost:3000',
+      'website_url': `${process.env.NEXT_PUBLIC_KHALTI_RETURN_URL}`,
       'amount': totalPrice * 100,
       'purchase_order_id': `${listing?.id}_${new Date(Date.now())}`,
       'purchase_order_name': 'test',
