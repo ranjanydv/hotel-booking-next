@@ -53,6 +53,7 @@ const ListingClient: React.FC<ListingClientProps> = (
   }, [reservations]);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [requests, setRequests] = useState('');
   const [totalPrice, setTotalPrice] = useState(listing.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
@@ -90,7 +91,8 @@ const ListingClient: React.FC<ListingClientProps> = (
         totalPrice,
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
-        listingId: listing?.id
+        listingId: listing?.id,
+        specialRequests: requests,
       }).then(async () => {
         toast.success('Listing Reserved');
         setDateRange(initialDateRange);
@@ -105,7 +107,7 @@ const ListingClient: React.FC<ListingClientProps> = (
         setIsLoading(false);
       });
     },
-    [currentUser, loginModal, handleKhaltiPayment, totalPrice, dateRange.startDate, dateRange.endDate, listing?.id, router],
+    [currentUser, loginModal, handleKhaltiPayment, totalPrice, dateRange.startDate, dateRange.endDate, listing?.id, router, requests],
   );
 
   useEffect(() => {
@@ -169,6 +171,7 @@ const ListingClient: React.FC<ListingClientProps> = (
                 onChangeDate={(value) => setDateRange(value)}
                 dateRange={dateRange}
                 onSubmit={onCreateReservation}
+                specialRequests={(requests) => setRequests(requests)}
                 disabled={isLoading}
                 disabledDates={disabledDates}
               />

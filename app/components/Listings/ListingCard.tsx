@@ -111,6 +111,14 @@ const ListingCard: React.FC<ListingCardProps> = (
             onClick={handleCancel}
           />
         )}
+        {reservation?.specialRequests && (
+          <span>
+            <p>Special Requests</p>
+            <small>
+              {reservation.specialRequests}
+            </small>
+          </span>
+        )}
       </div>
     </div>
   )

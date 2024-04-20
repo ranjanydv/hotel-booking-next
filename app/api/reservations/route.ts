@@ -1,4 +1,4 @@
-import {NextResponse} from "next/server"
+import { NextResponse } from "next/server"
 
 import prisma from "@/app/libs/prismadb"
 import getCurrentUser from "@/app/actions/getCurrentUser"
@@ -15,7 +15,8 @@ export async function POST(request: Request) {
     listingId,
     startDate,
     endDate,
-    totalPrice
+    totalPrice,
+    specialRequests
   } = body
 
   if (!listingId || !startDate || !endDate || !totalPrice) {
@@ -33,7 +34,8 @@ export async function POST(request: Request) {
           userId: currentUser.id,
           startDate,
           endDate,
-          totalPrice
+          totalPrice,
+          specialRequests
         }
       }
     }

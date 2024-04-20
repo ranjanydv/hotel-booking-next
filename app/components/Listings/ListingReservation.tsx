@@ -1,9 +1,10 @@
 "use client"
 
-import React from "react"
-import {Range} from "react-date-range"
+import React, { useState } from "react"
+import { Range } from "react-date-range"
 import Calendar from "@/app/components/Input/Calendar"
-import {Button} from "../Button"
+import { Button } from "../Button"
+import Input from "../Input/Input"
 
 interface ListingReservationProps {
   price: number
@@ -11,6 +12,7 @@ interface ListingReservationProps {
   totalPrice: number
   onChangeDate: (value: Range) => void
   onSubmit: () => void
+  specialRequests?: (requests: string) => void
   disabled?: boolean
   disabledDates: Date[]
 }
@@ -23,8 +25,16 @@ const ListingReservation: React.FC<ListingReservationProps> = (
     onChangeDate,
     onSubmit,
     disabled,
-    disabledDates
+    disabledDates,
+    specialRequests
   }) => {
+  const [requests, setRequests] = useState('')
+  const handleRequest = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRequests(e.target.value)
+    if (specialRequests) {
+      specialRequests(e.target.value)
+    }
+  }
 
   return (
     <div
@@ -40,13 +50,23 @@ const ListingReservation: React.FC<ListingReservationProps> = (
         <div className="text-2xl font-semibold">$ {price}</div>
         <div className="font-light text-neutral-600">night</div>
       </div>
-      <hr/>
+      <hr />
       <Calendar
         value={dateRange}
         disabledDates={disabledDates}
         onChange={(value) => onChangeDate(value.selection)}
       />
-      <hr/>
+      <hr />
+      <div className="w-full p-2 relative">
+        <input
+          type="text"
+          value={requests}
+          onChange={handleRequest}
+          placeholder="Special requests"
+          className="peer w-full p-4 font-light bg-white border-2 rounded-md outline-none transition focus:border-gray-700"
+        />
+      </div>
+      <hr />
       <div className="p-4">
         <Button
           disabled={disabled}
@@ -54,17 +74,7 @@ const ListingReservation: React.FC<ListingReservationProps> = (
           onClick={onSubmit}
         />
       </div>
-      <div
-        className="
-          p-4
-          flex
-          flex-row
-          items-center
-          justify-between
-          font-semibold
-          text-lg
-        "
-      >
+      <div className="p-4 flex flex-row items-center justify-between font-semibold text-lg">
         <div className="">Total</div>
         <div className="">$ {totalPrice}</div>
       </div>

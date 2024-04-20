@@ -48,10 +48,6 @@ export const authOptions: AuthOptions = {
 				console.log("======", user);
 
 				if (user.email === 'admin@rajhotel.com' && user.role === 'admin') {
-					// if user is admin then set admin in localstorage
-
-
-					// localStorage.setItem('admin', 'true')
 				}
 				return user;
 

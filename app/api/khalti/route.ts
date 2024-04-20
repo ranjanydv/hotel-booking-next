@@ -6,16 +6,13 @@ export async function POST(
   request: Request
 ) {
   const currentUser = await getCurrentUser();
-  console.log('==============================Khalti');
 
   if (!currentUser) {
-    console.log('========== No User');
     return NextResponse.error();
   }
 
   const body = await request.json();
-  const payload  = body;
-  console.log("-----------",payload);
+  const payload = body;
   'use client';
   const khaltiResponse = await axios.post(
     'https://a.khalti.com/api/v2/epayment/initiate/',
