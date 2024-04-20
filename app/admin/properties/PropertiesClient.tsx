@@ -44,8 +44,8 @@ const PropertiesClient: React.FC<PropertiesClientProps> = (
   return (
     <Container>
       <Heading
-        title="Properties"
-        subtitle="List of your properties"
+        title="Rooms"
+        subtitle="List of your rooms"
       />
       <div
         className="

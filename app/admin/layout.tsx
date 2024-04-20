@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import { signOut } from "next-auth/react";
 
 const adminMenu = [
-    { label: 'Dashboard', href: 'admin', icon: MdOutlineDashboard, },
+    // { label: 'Dashboard', href: 'admin', icon: MdOutlineDashboard, },
     { label: 'Users', href: 'admin/users', icon: FiUsers },
     { label: 'Rooms', href: 'admin/properties', icon: MdOutlineRoom },
     { label: 'Bookings', href: 'admin/reservations', icon: TbBrandBooking },
@@ -20,7 +20,7 @@ const adminMenu = [
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const rentModal = useRentModal();
-    const router = useRouter()
+    const router = useRouter();
 
 
 
@@ -31,7 +31,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
     return (
         <div className="grid grid-cols-8 gap-4 overflow-x-hidden">
-            <aside className="sticky top-0 h-[85dvh] col-span-1 min-w-[200px] bg-blue-50 py-10 px-4 flex flex-col justify-between">
+            <aside className="sticky top-0 h-[92dvh] col-span-1 min-w-[200px] bg-blue-50 py-10 px-4 flex flex-col justify-between">
                 <div className="flex flex-col gap-2 overflow-y-hidden">
                     {adminMenu.map(({ label, href, icon }) => (
                         <Link
@@ -69,7 +69,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                     Logout
                 </div>
             </aside>
-            <main className="col-span-7 bg-white p-6">{children}</main>
+            <main className="col-span-7 bg-white px-6 pt-6 overflow-y-hidden">{children}</main>
         </div>
     );
 }
