@@ -2,7 +2,6 @@
 
 import { HeartButton } from "@/app/components/HeartButton"
 import { SafeUser } from "@/app/types"
-import Image from "next/image"
 import React from "react"
 import Slider from "react-slick"
 import Heading from "../Heading"
@@ -32,22 +31,24 @@ const ListingHead: React.FC<ListingHeadProps> = ({
         autoplaySpeed: 3000,
         fade: true,
         cssEase: "ease-in-out",
-        arrows: false
     }
 
     return (
         <>
             <Heading title={title} subtitle="" />
-            <div className="w-full h-[60vh] rounded-xl relative">
+            <div className="relative h-[60vh] rounded-xl">
                 <Slider {...settings}>
                     {imageSrc.map((src, index) => (
-                        <Image
-                            key={index}
-                            alt={title}
-                            src={src}
-                            fill
-                            className="object-cover w-full h-full rounded-xl"
-                        />
+                        <div key={index} className="w-full h-full">
+                            <img src={src} alt={title} className="h-[500px] w-[100%] object-contain bg-gray-50" />
+                            {/* <Image
+                                alt={title}
+                                src={"https://source.unsplash.com/random/600x400"}
+                                fill
+                                sizes="100%"
+                                className="object-cover"
+                            /> */}
+                        </div>
                     ))}
                 </Slider>
                 <div className="absolute top-5 right-5">
