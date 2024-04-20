@@ -61,7 +61,7 @@ const ListingClient: React.FC<ListingClientProps> = (
   const handleKhaltiPayment = useCallback(async () => {
     toast.success('Khalti');
     const payload = {
-      'return_url': 'http://localhost:3000/payment-success',
+      'return_url': `${process.env.NEXT_PUBLIC_KHALTI_RETURN_URL}/payment-success`,
       'website_url': 'http://localhost:3000',
       'amount': totalPrice * 100,
       'purchase_order_id': `${listing?.id}_${new Date(Date.now())}`,
