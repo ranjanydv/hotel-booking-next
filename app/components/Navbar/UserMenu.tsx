@@ -86,20 +86,24 @@ export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           <div className="flex flex-col cursor-pointer">
             {currentUser ? (
               <>
-                <MenuItem
-                  onClick={() => {
-                    router.push("/trips")
-                    setIsOpen(false)
-                  }}
-                  label="My Bookings"
-                />
-                <MenuItem
-                  onClick={() => {
-                    router.push("/favourites")
-                    setIsOpen(false)
-                  }}
-                  label="My Favorites"
-                />
+                {currentUser?.role === "USER" && (
+                  <>
+                    <MenuItem
+                      onClick={() => {
+                        router.push("/trips")
+                        setIsOpen(false)
+                      }}
+                      label="My Bookings"
+                    />
+                    <MenuItem
+                      onClick={() => {
+                        router.push("/favourites")
+                        setIsOpen(false)
+                      }}
+                      label="My Favorites"
+                    />
+                  </>
+                )}
                 {currentUser?.role === "admin" && (
                   <>
                     <hr />
@@ -117,7 +121,8 @@ export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                   onClick={() => {
                     toast.success("Logout successful")
                     setTimeout(() => {
-                      signOut()
+                      signOut();
+                      router.replace("/")
                     }, 500)
                   }}
                   className="
