@@ -1,24 +1,22 @@
 "use client"
 
-import React, {useCallback, useMemo, useState} from "react"
-import {useRouter, useSearchParams} from "next/navigation"
-import {Range} from "react-date-range"
-import qs from "query-string"
-import {formatISO} from "date-fns"
+import { formatISO } from "date-fns"
 import dynamic from "next/dynamic"
+import { useRouter, useSearchParams } from "next/navigation"
+import qs from "query-string"
+import { useCallback, useMemo, useState } from "react"
+import { Range } from "react-date-range"
 
-import {Modal} from "./Modal"
+import { Modal } from "./Modal"
 
 import useSearchModal from "@/app/hooks/useSearchModal"
-import CountrySelect, {CountrySelectValue} from "../Input/CountrySelect"
 import Heading from "../Heading"
 import Calendar from "../Input/Calendar"
 import Counter from "../Input/Counter"
 
 enum STEPS {
-  LOCATION = 0,
-  DATE = 1,
-  INFO = 2
+  DATE = 0,
+  INFO = 1
 }
 
 const SearchModal = () => {
@@ -26,8 +24,7 @@ const SearchModal = () => {
   const params = useSearchParams()
   const searchModal = useSearchModal()
 
-  const [location, setLocation] = useState<CountrySelectValue>()
-  const [step, setStep] = useState(STEPS.LOCATION)
+  const [step, setStep] = useState(STEPS.DATE)
   const [guestCount, setGuestCount] = useState(1)
   const [roomCount, setRoomCount] = useState(1)
   const [bathroomCount, setBathroomCount] = useState(1)
@@ -36,11 +33,6 @@ const SearchModal = () => {
     endDate: new Date(),
     key: "selection"
   })
-
-
-  const Map = useMemo(() => dynamic(() => import("../Map"),
-      {ssr: false}),
-    [location])
 
   const onBack = useCallback(
     () => {
@@ -68,7 +60,6 @@ const SearchModal = () => {
 
       const updatedQuery: any = {
         ...currentQuery,
-        locationValue: location?.value,
         guestCount,
         roomCount,
         bathroomCount
@@ -80,12 +71,12 @@ const SearchModal = () => {
         updatedQuery.endDate = formatISO(dateRange.endDate)
       }
       const url = qs.stringifyUrl({
-          url: "/",
-          query: updatedQuery
-        },
-        {skipNull: true}
+        url: "/",
+        query: updatedQuery
+      },
+        { skipNull: true }
       )
-      setStep(STEPS.LOCATION)
+      setStep(STEPS.DATE)
       searchModal.onClose()
 
       router.push(url)
@@ -93,7 +84,6 @@ const SearchModal = () => {
     [
       dateRange.endDate,
       dateRange.startDate,
-      location?.value,
       guestCount,
       roomCount,
       bathroomCount,
@@ -113,7 +103,7 @@ const SearchModal = () => {
   }, [step])
 
   const secondaryActionLabel = useMemo(() => {
-    if (step === STEPS.LOCATION) {
+    if (step === STEPS.DATE) {
       return undefined
     }
     return "Back"
@@ -122,32 +112,15 @@ const SearchModal = () => {
   let bodyContent = (
     <div className="flex flex-col gap-8">
       <Heading
-        title="Where do you wanna go?"
-        subtitle="Find a perfect location"
+        title="When do you plan to go?"
+        subtitle="Make sure everyone is free!"
       />
-      <CountrySelect
-        value={location}
-        onChange={(value) => setLocation(value as CountrySelectValue)}
+      <Calendar
+        value={dateRange}
+        onChange={(value) => setDateRange(value.selection)}
       />
-      <hr/>
-      <Map center={location?.latlng}/>
     </div>
   )
-
-  if (step === STEPS.DATE) {
-    bodyContent = (
-      <div className="flex flex-col gap-8">
-        <Heading
-          title="When do you plan to go?"
-          subtitle="Make sure everyone is free!"
-        />
-        <Calendar
-          value={dateRange}
-          onChange={(value) => setDateRange(value.selection)}
-        />
-      </div>
-    )
-  }
 
   if (step === STEPS.INFO) {
     bodyContent = (
@@ -185,7 +158,7 @@ const SearchModal = () => {
       onSubmit={onSubmit}
       title="Filters"
       actionLabel={actionLabel}
-      secondaryAction={step === STEPS.LOCATION ? undefined : onBack}
+      secondaryAction={step === STEPS.DATE ? undefined : onBack}
       secondaryActionLabel={secondaryActionLabel}
       body={bodyContent}
     />

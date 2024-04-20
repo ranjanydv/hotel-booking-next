@@ -31,7 +31,6 @@ model User {
   accounts     Account[]
   listings     Listing[]
   reservations Reservation[]
-  // Hotel        Hotel[]
 }
 
 model Account {
@@ -65,34 +64,22 @@ model Listing {
   guestCount    Int
   locationValue String?
   userId        String   @db.ObjectId
-  // hotelId       String   @db.ObjectId
   price         Int
 
   user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  // hotel         Hotel         @relation(fields: [hotelId], references: [id], onDelete: Cascade)
   reservartions Reservation[]
 }
 
 model Reservation {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId     String   @db.ObjectId
-  listingId  String   @db.ObjectId
-  startDate  DateTime
-  endDate    DateTime
-  totalPrice Int
-  createdAt  DateTime @default(now())
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String   @db.ObjectId
+  listingId       String   @db.ObjectId
+  startDate       DateTime
+  endDate         DateTime
+  totalPrice      Int
+  createdAt       DateTime @default(now())
+  specialRequests String?
 
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
 }
-
-// model Hotel {
-//   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-//   name        String
-//   description String
-//   imageSrc    String[]
-//   ownerId     String   @db.ObjectId
-//
-//   owner   User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-//   Listing Listing[]
-// }

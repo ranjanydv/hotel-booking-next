@@ -86,6 +86,13 @@ export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           <div className="flex flex-col cursor-pointer">
             {currentUser ? (
               <>
+                <MenuItem
+                  onClick={() => {
+                    router.push("/about")
+                    setIsOpen(false)
+                  }}
+                  label="About Us"
+                />
                 {currentUser?.role === "USER" && (
                   <>
                     <MenuItem

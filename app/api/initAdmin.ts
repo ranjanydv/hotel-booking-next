@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs"
 
 export async function createAdminIfNotExist() {
   // console.log("Creating admin if not exist");
-  
+
   const user = await prisma.user.findUnique({
     where: {
       email: "admin@rajhotel.com"
@@ -21,7 +21,8 @@ export async function createAdminIfNotExist() {
         email: "admin@rajhotel.com",
         hashedPassword,
         emailVerified: new Date(Date.now()),
-        role: "admin"
+        role: "admin",
+        image: "/images/logo-sm.png"
       }
     })
   }

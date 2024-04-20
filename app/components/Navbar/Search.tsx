@@ -1,30 +1,30 @@
 "use client"
 
-import {BiSearch} from "react-icons/bi"
-import {useMemo} from "react"
-import {useSearchParams} from "next/navigation"
-import {differenceInDays} from "date-fns"
+import { BiSearch } from "react-icons/bi"
+import { useMemo } from "react"
+import { useSearchParams } from "next/navigation"
+import { differenceInDays } from "date-fns"
 
 import useSearchModal from "@/app/hooks/useSearchModal"
-import useCountries from "@/app/hooks/useCountries"
+// import useCountries from "@/app/hooks/useCountries"
 
 export const Search = () => {
   const params = useSearchParams()
   const searchModal = useSearchModal()
-  const {getByValue} = useCountries()
+  // const { getByValue } = useCountries()
 
-  const locationValue = params?.get("locationValue")
+  // const locationValue = params?.get("locationValue")
   const startDate = params?.get("startDate")
   const endDate = params?.get("endDate")
   const guestCount = params?.get("guestCount")
 
 
-  const locationLabel = useMemo(() => {
-    if (locationValue) {
-      return getByValue(locationValue as string)?.label
-    }
-    return "Anywhere"
-  }, [getByValue, locationValue])
+  // const locationLabel = useMemo(() => {
+  //   if (locationValue) {
+  //     return getByValue(locationValue as string)?.label
+  //   }
+  //   return "Anywhere"
+  // }, [getByValue, locationValue])
 
   const durationLabel = useMemo(() => {
     if (startDate && endDate) {
@@ -73,7 +73,7 @@ export const Search = () => {
 					justify-between
 			"
       >
-        <div
+        {/* <div
           className="
 						text-sm
 						font-semibold
@@ -81,7 +81,7 @@ export const Search = () => {
 				"
         >
           {locationLabel}
-        </div>
+        </div> */}
         <div className="
 						hidden
 						sm:block
@@ -112,7 +112,7 @@ export const Search = () => {
 							rounded-full
 							text-white
 					">
-            <BiSearch size={18}/>
+            <BiSearch size={18} />
           </div>
         </div>
       </div>

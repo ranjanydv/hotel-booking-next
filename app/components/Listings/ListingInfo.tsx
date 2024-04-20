@@ -1,12 +1,11 @@
 'use client'
 
-import { SafeUser } from '@/app/types'
-import { IconType } from 'react-icons'
-import React from 'react'
-import useCountries from '@/app/hooks/useCountries'
 import { Avatar } from '@/app/components/Avatar'
-import ListingCategory from './ListingCategory'
+import { SafeUser } from '@/app/types'
 import dynamic from 'next/dynamic'
+import React from 'react'
+import { IconType } from 'react-icons'
+import ListingCategory from './ListingCategory'
 
 const Map = dynamic(() => import('../Map'), {
 	ssr: false,
@@ -43,31 +42,13 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
 	return (
 		<div className="col-span-4 flex flex-col gap-8">
 			<div className="flex flex-col gap-2">
-				<div
-					className="
-            text-xl
-            font-semibold
-            flex
-            flex-row
-            items-center
-            gap-2
-        "
-				>
+				{/* <div className="text-xl font-semibold flex flex-row items-center gap-2">
 					<div className="">Hosted By {user?.name}</div>
 					<Avatar src={user?.image} />
-				</div>
-				<div
-					className="
-            flex
-            flex-row
-            items-center
-            gap-4
-            font-light
-            text-neutral-500
-        "
-				>
+				</div> */}
+				<div className="flex flex-row items-center gap-4 font-light text-neutral-500">
 					<div className="">{guestCount} guests</div>
-					<div className="">{roomCount} rooms</div>
+					{/* <div className="">{roomCount} rooms</div> */}
 					<div className="">{bathroomCount} bathrooms</div>
 				</div>
 			</div>
