@@ -8,6 +8,7 @@ import useCountries from "@/app/hooks/useCountries"
 import Heading from "../Heading"
 import { HeartButton } from "@/app/components/HeartButton"
 
+
 interface ListingHeadProps {
     title: string
     imageSrc: string[]
@@ -24,24 +25,14 @@ const ListingHead: React.FC<ListingHeadProps> = (
         id,
         currentUser
     }) => {
-    // const { getByValue } = useCountries()
-    // const location = getByValue(locationValue)
 
     return (
         <>
             <Heading
                 title={title}
-                // subtitle={`${location?.label},${location?.region}`}
-                subtitle={"`${location?.label},${location?.region}`"}
+                subtitle=""
             />
-            <div className="
-                    w-full
-                    h-[60vh]
-                    overflow-hidden
-                    rounded-xl
-                    relative
-            "
-            >
+            <div className="w-full h-[60vh] overflow-hidden rounded-xl relative">
                 <Image
                     alt={title}
                     src={imageSrc[0]}
