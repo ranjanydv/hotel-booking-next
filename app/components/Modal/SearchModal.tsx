@@ -24,7 +24,6 @@ const SearchModal = () => {
   const params = useSearchParams()
   const searchModal = useSearchModal()
 
-  // const [location, setLocation] = useState<CountrySelectValue>()
   const [step, setStep] = useState(STEPS.DATE)
   const [guestCount, setGuestCount] = useState(1)
   const [roomCount, setRoomCount] = useState(1)
@@ -34,11 +33,6 @@ const SearchModal = () => {
     endDate: new Date(),
     key: "selection"
   })
-
-
-  // const Map = useMemo(() => dynamic(() => import("../Map"),
-  //   { ssr: false }),
-  //   [location])
 
   const onBack = useCallback(
     () => {
@@ -66,7 +60,6 @@ const SearchModal = () => {
 
       const updatedQuery: any = {
         ...currentQuery,
-        // locationValue: location?.value,
         guestCount,
         roomCount,
         bathroomCount
@@ -91,7 +84,6 @@ const SearchModal = () => {
     [
       dateRange.endDate,
       dateRange.startDate,
-      // location?.value,
       guestCount,
       roomCount,
       bathroomCount,
@@ -129,21 +121,6 @@ const SearchModal = () => {
       />
     </div>
   )
-
-  // if (step === STEPS.DATE) {
-  //   bodyContent = (
-  //     <div className="flex flex-col gap-8">
-  //       <Heading
-  //         title="When do you plan to go?"
-  //         subtitle="Make sure everyone is free!"
-  //       />
-  //       <Calendar
-  //         value={dateRange}
-  //         onChange={(value) => setDateRange(value.selection)}
-  //       />
-  //     </div>
-  //   )
-  // }
 
   if (step === STEPS.INFO) {
     bodyContent = (

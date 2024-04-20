@@ -31,7 +31,10 @@ const USers = async () => {
   return (
     <ClientOnly>
       <UsersClient
-        users={users}
+        users={users.map(user => ({
+          ...user,
+          emailVerified: user.emailVerified ? user.emailVerified.toISOString() : null
+        }))}
         currentUser={currentUser}
       />
     </ClientOnly>

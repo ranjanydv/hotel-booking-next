@@ -1,21 +1,20 @@
 "use client"
 
-import React, { useMemo, useState } from "react"
-import { FieldValues, useForm, SubmitHandler } from "react-hook-form"
-import dynamic from "next/dynamic"
 import axios from "axios"
-import toast from "react-hot-toast"
+import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
+import { useMemo, useState } from "react"
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
+import toast from "react-hot-toast"
 
 import useRentModal from "@/app/hooks/useRentModal"
-import { Modal } from "./Modal"
 import Heading from "../Heading"
-import { categories } from "../Navbar/Categories"
 import CategoryInput from "../Input/CategoryInput"
-import CountrySelect from "../Input/CountrySelect"
 import Counter from "../Input/Counter"
 import ImageUpload from "../Input/ImageUpload"
 import Input from "../Input/Input"
+import { categories } from "../Navbar/Categories"
+import { Modal } from "./Modal"
 
 enum STEPS {
   CATEGORY = 0,
@@ -147,22 +146,6 @@ const RentModal = () => {
       </div>
     </div>
   )
-
-  // if (step === STEPS.LOCATION) {
-  //   bodyContent = (
-  //     <div className="flex flex-col gap-8">
-  //       <Heading
-  //         title="Where is Your Place Located?"
-  //         subtitle="Help Us Find You"
-  //       />
-  //       <CountrySelect
-  //         onChange={(value) => setCustomValue("location", value)}
-  //         value={location}
-  //       />
-  //       <Map center={location?.latlng} />
-  //     </div>
-  //   )
-  // }
 
   if (step === STEPS.INFO) {
     bodyContent = (
