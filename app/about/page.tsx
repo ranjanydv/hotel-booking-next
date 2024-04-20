@@ -26,9 +26,9 @@ const About = () => {
                         <div className="flex items-center justify-center text-indigo-500 text-5xl mb-4">
                             <BiGlobe />
                         </div>
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">What's Our Goal?</h3>
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">What&apos;s Our Goal?</h3>
                         <p className="text-gray-600">
-                            Our goal is to simplify the hotel booking process and make it accessible to everyone. We strive to provide a user-friendly platform that allows you to find the perfect accommodation for your needs, whether you're traveling for business or pleasure.
+                            Our goal is to simplify the hotel booking process and make it accessible to everyone. We strive to provide a user-friendly platform that allows you to find the perfect accommodation for your needs, whether you&apos;re traveling for business or pleasure.
                         </p>
                     </div>
 
