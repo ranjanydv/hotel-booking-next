@@ -32,6 +32,7 @@ const PaymentClient: React.FC = () => {
                 </div>
             </section>
         </Container>
+
     )
 }
 
